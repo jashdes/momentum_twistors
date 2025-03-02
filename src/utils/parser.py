@@ -82,3 +82,104 @@ class OperatorNode(ExpressionNode):
             return f"({self.operands[0].to_string()}^{self.operands[1].to_string()})"
         else:
             return f"{self.op_type}({', '.join([operand.to_string() for operand in self.operands])})"
+
+class TwistorNode(ExpressionNode):
+    """
+    Node representing a twistor variable.
+    """
+    def __init__(self, index: int):
+        self.index = index
+    
+    def to_prefix_notation(self) -> List[str]:
+        """
+        Convert to prefix notation.
+        """
+        return [f"Z{self.index}"]
+    
+    def to_string(self) -> str:
+        """
+        Convert to string representation.
+        """
+        return f"Z_{{{self.index}}}"
+
+class DualTwistorNode(ExpressionNode):
+    """
+    Node representing a dual twistor variable.
+    """
+    def __init__(self, index: int):
+        self.index = index
+    
+    def to_prefix_notation(self) -> List[str]:
+        """
+        Convert to prefix notation.
+        """
+        return [f"W{self.index}"]
+    
+    def to_string(self) -> str:
+        """
+        Convert to string representation.
+        """
+        return f"W_{{{self.index}}}"
+
+class NumberNode(ExpressionNode):
+    """
+    Node representing a constant.
+    """
+    def __init__(self, value: float):
+        self.value = value
+    
+    def to_prefix_notation(self) -> List[str]:
+        """
+        Convert to prefix notation.
+        """
+        return [str(self.value)]
+    
+    def to_string(self) -> str:
+        """
+        Convert to string representation.
+        """
+        return str(self.value)
+
+class BracketNode(ExpressionNode):
+    """
+    Node representing momentum twistor bracket.
+    """
+    def __init__(self, bracket_type:str, indices:List[int]):
+        self.bracket_type = bracket_type # angle/square
+        self.indices = indices # 4 for momentum twistors
+    
+    def to_prefix_notation(self) -> List[str]:
+        """
+        Convert to prefix notation.
+        """
+        indices_str = ''.join(map(str, self.indices))
+        return [f"{self.bracket_type}{indices_str}"]
+    
+    def to_string(self) -> str:
+        """
+        Convert to string representation.
+        """
+        if self.bracket_type == 'angle':
+            return f"<{', '.join(map(str, self.indices))}>"
+        elif self.bracket_type == 'square':
+            return f"[{', '.join(map(str, self.indices))}]"
+        else:
+            return f"{self.bracket_type}({', '.join(map(str, self.indices))})"
+
+class InfinityTwistorNode(ExpressionNode):
+    """
+    Node representing infinity twistor.
+    """
+    def to_prefix_notation(self) -> List[str]:
+        """
+        Convert to prefix notation.
+        """
+        return ["I"]
+    
+    def to_string(self) -> str:
+        """
+        Convert to string representation.
+        """
+        return "I"
+            
+    
