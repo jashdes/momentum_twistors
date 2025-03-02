@@ -181,5 +181,3 @@ class InfinityTwistorNode(ExpressionNode):
         Convert to string representation.
         """
         return "I"
-            
-    
